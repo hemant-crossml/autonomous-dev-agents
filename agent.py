@@ -1,3 +1,22 @@
+"""
+LangChain Agent Initialization Module
+
+Summary:
+This module is responsible for initializing a LangChain agent using a
+preconfigured language model and a set of custom tools.
+
+Description:
+- Imports a language model client.
+- Registers tools for terminal command execution, web search, and
+  automated Python test case generation.
+- Sets up structured logging.
+- Creates and validates a LangChain agent instance with proper
+  error handling and logging for observability.
+
+If agent creation fails, the error is logged with stack trace details
+and re-raised to ensure failure visibility.
+"""
+
 from langchain.agents import create_agent
 
 from client import model

@@ -1,3 +1,22 @@
+"""
+tools.py
+
+This module defines LangChain-compatible tools that enable an AI agent
+to execute terminal commands, perform web searches, and generate Python
+test cases.
+
+Description:
+- Provides a safe interface for executing Linux terminal commands without
+  using shell execution.
+- Integrates SerpAPI to support real-time web search and technical research.
+- Includes a test case generation utility for creating structured and
+  comprehensive Python test prompts.
+- All functions are exposed as LangChain tools using the `@tool` decorator.
+
+This module contains only tool definitions and is intended to be imported
+by the agent initialization layer.
+"""
+
 import subprocess
 from typing import List, Union
 
@@ -10,14 +29,18 @@ from logger_config import setup_logger
 @tool
 def execute_terminal_command(commands: Union[str, List[str]]) -> str:
     """
-    Executes Linux terminal commands safely and returns the output.
-    
+    Summary:
+        Safely executes one or more Linux terminal commands and returns their output.
+
     Args:
-        commands: A single command string or list of command strings to execute
-        
+        commands (Union[str, List[str]]): A single command string or a list of
+        command strings to be executed sequentially.
+
     Returns:
-        The stdout/stderr output from command execution
+        str: Combined stdout and stderr output for all executed commands,
+        including command context.
     """
+
     if isinstance(commands, str):
         commands = [commands]
     
@@ -41,14 +64,16 @@ def execute_terminal_command(commands: Union[str, List[str]]) -> str:
 @tool
 def web_search_tool(query: str, num_results: int = 5) -> str:
     """
-    Searches the web using SerpAPI and returns relevant results.
-    
+    Summary:
+        Performs a web search using SerpAPI and returns formatted search results.
+
     Args:
-        query: The search query string
-        num_results: Number of results to return (default: 5)
-        
+        query (str): Search query optimized for technical or informational content.
+        num_results (int): Number of search results to return (default is 5).
+
     Returns:
-        A formatted string containing search results with titles, links, and snippets
+        str: A formatted string containing titles, URLs, and descriptions
+        of the search results.
     """
     try:
         # Perform search
@@ -88,16 +113,19 @@ def generate_test_cases(
     test_framework: str = "pytest",
     num_test_cases: int = 3
 ) -> str:
-    """Generate Python test cases for a given function.
-    
-    Args:
-        function_code: The Python function code to generate tests for
-        test_framework: Testing framework to use (pytest, unittest)
-        num_test_cases: Number of test cases to generate
-        
-    Returns:
-        Generated test cases as a formatted string
     """
+    Summary:
+        Generates structured Python test cases for a given function or class.
+
+    Args:
+        function_code (str): Complete Python function or class code to be tested.
+        test_framework (str): Testing framework to use (pytest or unittest).
+        num_test_cases (int): Number of test cases to generate.
+
+    Returns:
+        str: A formatted string containing generated, runnable test code.
+    """
+
     prompt = f"""
     Generate {num_test_cases} comprehensive test cases for the following Python function
     using {test_framework} framework:

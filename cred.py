@@ -1,3 +1,18 @@
+"""
+Credential Management Module
+
+Summary:
+This module is responsible for securely loading and validating
+API credentials required by the application.
+
+Description:
+- Loads environment variables from a `.env` file using python-dotenv.
+- Retrieves API keys for Gemini and SerpAPI from the environment.
+- Validates the presence of required credentials at startup.
+- Logs detailed status information without exposing sensitive values.
+- Raises explicit errors if mandatory credentials are missing to
+  prevent the application from running in an invalid state.
+"""
 import os
 from dotenv import load_dotenv
 

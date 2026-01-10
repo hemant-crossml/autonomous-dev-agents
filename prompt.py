@@ -1,3 +1,24 @@
+"""
+System and Example Prompt Definitions Module
+
+Summary:
+This module defines the system prompt and example human prompts used to
+configure and guide a LangChain-based AI development agent.
+
+Description:
+- Defines a comprehensive `SystemMessage` that establishes the agent’s role,
+  capabilities, tools, safety constraints, and decision-making framework.
+- Encodes detailed guidelines for tool usage, planning, testing standards,
+  and code quality expectations.
+- Provides example `HumanMessage` prompts to demonstrate typical user
+  interactions such as web research, test case generation, and system
+  inspection tasks.
+- Acts as a centralized prompt configuration to ensure consistent,
+  safe, and high-quality agent behavior across the application.
+
+This module is intended to be imported by the agent initialization logic
+and should not contain execution-side effects.
+"""
 from langchain.messages import SystemMessage, HumanMessage
 
 system_prompt=SystemMessage(

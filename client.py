@@ -1,3 +1,20 @@
+"""
+LLM and External API Client Initialization Module
+
+Summary:
+This module initializes and configures external service clients required
+by the application, including the Gemini chat model and the SerpAPI client.
+
+Description:
+- Creates a ChatGoogleGenerativeAI instance using the Gemini 2.5 Flash Lite
+  model with controlled generation parameters for deterministic responses.
+- Initializes a SerpAPI client for performing web search operations.
+- Uses centralized logging to track successful initialization and capture
+  detailed error information during failures.
+- Ensures failures are surfaced by re-raising exceptions after logging.
+
+All API credentials are securely loaded from the `cred` module.
+"""
 import serpapi
 from langchain_google_genai import ChatGoogleGenerativeAI
 
