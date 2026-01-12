@@ -18,8 +18,8 @@ All API credentials are securely loaded from the `cred` module.
 import serpapi
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-
 from cred import gemini_api_key, serpapi_api_key
+from config import *
 from logger_config import setup_logger
 
 # Initialize logger for this module
@@ -29,12 +29,12 @@ logger.info("Initializing Gemini chat model client")
 
 try:
     model = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash-lite",
+        model=MODEL_ID,
         api_key=gemini_api_key,
-        temperature=0.2,
-        top_p=0.9,
-        top_k=40,
-        max_output_tokens=512,   # output length cap
+        temperature=TEMPERATURE,
+        top_p=TOP_P,
+        top_k=TOP_K,
+        max_output_tokens=MAX_TOKEN,   # output length cap
     )
     logger.info("Gemini model initialized successfully")
     logger.debug(f"Model config: model=gemini-2.5-flash-lite, temp=0.2, top_p=0.9, top_k=40, max_tokens=512")
