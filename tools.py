@@ -21,8 +21,8 @@ import subprocess
 from typing import List, Union
 
 from langchain_core.tools import tool
-from langchain.messages import HumanMessage
-from client import client, model
+
+from client import client
 
 
 
@@ -105,6 +105,7 @@ def web_search_tool(query: str, num_results: int = 5) -> str:
         
     except Exception as e:
         return f"Search error: {str(e)}"
+
 
 
 @tool
