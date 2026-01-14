@@ -21,9 +21,9 @@ import subprocess
 from typing import List, Union
 
 from langchain_core.tools import tool
+from langchain.messages import HumanMessage
+from client import client, model
 
-from client import client
-from logger_config import setup_logger
 
 
 @tool
@@ -105,7 +105,7 @@ def web_search_tool(query: str, num_results: int = 5) -> str:
         
     except Exception as e:
         return f"Search error: {str(e)}"
-    
+
 
 @tool
 def generate_test_cases(
@@ -115,31 +115,42 @@ def generate_test_cases(
 ) -> str:
     """
     Summary:
-        Generates structured Python test cases for a given function or class.
+        Generates structured Python test cases for a given function or class
+        using Gemini via LangChain.
 
     Args:
-        function_code (str): Complete Python function or class code to be tested.
-        test_framework (str): Testing framework to use (pytest or unittest).
+        function_code (str): Python function or class code to test.
+        test_framework (str): Testing framework (pytest or unittest).
         num_test_cases (int): Number of test cases to generate.
 
     Returns:
-        str: A formatted string containing generated, runnable test code.
+        str: Runnable Python test code.
     """
 
+    if test_framework not in {"pytest", "unittest"}:
+        return "Error: test_framework must be 'pytest' or 'unittest'"
+
     prompt = f"""
-    Generate {num_test_cases} comprehensive test cases for the following Python function
-    using {test_framework} framework:
-    
-    {function_code}
-    
-    Include:
-    - Positive test cases (normal inputs)
-    - Edge cases (boundary values)
-    - Negative test cases (invalid inputs)
-    
-    Format the output as complete, runnable test code.
-    """
-    
-    # This would connect to your LLM
-    # For now, returning the prompt structure
+You are a senior Python QA engineer.
+
+Task:
+Generate exactly {num_test_cases} test cases for the given Python function
+using the {test_framework} framework.
+
+Rules:
+- Output ONLY runnable test code
+- Use clear and descriptive test names
+- Follow {test_framework} best practices
+- Include comments for each test
+- No explanations outside the code
+
+Coverage:
+- Positive cases
+- Edge cases
+- Negative cases (exceptions / invalid inputs)
+
+Code Under Test:
+```python
+{function_code}
+"""
     return prompt
